@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.clash</groupId>
-    <artifactId>ClashConfig</artifactId>
+    <artifactId>clash-config</artifactId>
     <version>1.0</version>
 
     <dependencies>
@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.github.helyho</groupId>
             <artifactId>Voovan</artifactId>
-            <version>24bca838ba</version>
+            <version>3c0ed2f15b</version>
         </dependency>
     </dependencies>
 
@@ -25,6 +25,10 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 执行的类定义 -->
+        <project.main.class>org.clash.config.App</project.main.class>
+        <project.package.name>app</project.package.name>
+        <project.package.status>release</project.package.status>
     </properties>
 
     <build>
@@ -33,8 +37,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <compilerArgs>
+                        <arg>--add-opens</arg>
+                        <arg>java.base/jdk.internal.module=ALL-UNNAMED</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -42,13 +50,15 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
+                        <!-- 配置 manifest 信息 -->
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.clash.config.App</mainClass>
+                            <mainClass>${project.main.class}</mainClass>
                         </manifest>
                         <manifestEntries>
-                            <Class-Path>conf</Class-Path>
+                            <Class-Path>classes</Class-Path>
+                            <Add-Opens>java.base/jdk.internal.module</Add-Opens>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -56,7 +66,8 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <finalName>clashconfig</finalName>
+                    <!-- <appendAssemblyId>false</appendAssemblyId> -->
+                    <finalName>${project.name}</finalName>
                     <descriptors>
                         <descriptor>assembly.xml</descriptor>
                     </descriptors>
@@ -73,6 +84,8 @@
 
             </plugin>
         </plugins>
+        <!-- 最终打包的jar 文件名称, 需要与 assembly.xml中的同步 -->
+        <finalName>${project.package.name}</finalName>
     </build>
     <repositories>
         <repository>

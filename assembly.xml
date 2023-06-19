@@ -1,19 +1,21 @@
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0">
-    <id>dist</id>
+    <id>${project.version}-${project.package.status}</id>
     <formats>
-        <format>tar.gz</format>
+        <format>tar.gz</format> <!-- jar, tar.gz, zip, dir-->
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
         <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
             <unpack>false</unpack>
             <scope>runtime</scope>
-            <outputDirectory>lib</outputDirectory>
         </dependencySet>
     </dependencySets>
     <fileSets>
+        <!-- 配置文件目录 -->
         <fileSet>
             <directory>conf/</directory>
             <outputDirectory>conf</outputDirectory>
@@ -24,11 +26,17 @@
     </fileSets>
 
     <files>
+        <!-- 启动脚本 -->
         <file>
-            <source>start.sh</source>
+            <source>launcher.sh</source>
             <outputDirectory>.</outputDirectory>
             <fileMode>0755</fileMode>
-            <destName>start.sh</destName>
+            <destName>${project.name}</destName>
+        </file>
+        <!-- 用于启动的 jar 包 -->
+        <file>
+            <source>target/${project.package.name}.jar</source>
+            <outputDirectory>.</outputDirectory>
         </file>
     </files>
 </assembly>

@@ -1,0 +1,1 @@
+curl http://127.0.0.1:30011/subconvert\?sub\=https%3A%2F%2Ffast.lycorisrecoil.org%2Flink%2FmmmoWzikODNetIJ5%3Fclash%3D1\&filter\=香港
