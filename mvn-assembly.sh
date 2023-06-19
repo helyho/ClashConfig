@@ -1,1 +1,1 @@
-mvn claen assembly:directory
+mvn clean assembly:directory
