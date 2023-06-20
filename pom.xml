@@ -91,12 +91,11 @@
                             <alias>${project.artifactId}</alias>
                             <name>${project.artifactId}:latest</name>
                             <build>
-                                <compression>gzip</compression>
                                 <from>${docker.baseImage}</from>
                                 <ports>
                                     <port>28080</port>
                                 </ports>
-                                <workdir>/${docker.app.dir}</workdir>
+                                <workdir>${docker.app.dir}</workdir>
                                 <cmd>
                                     <!-- <shell>java -jar ${launcher.name}.jar</shell> -->
                                     <shell>./${project.name}</shell>
@@ -105,8 +104,8 @@
                                     <assembly>
                                         <name>app</name>
                                         <descriptor>${project.basedir}/assembly.xml</descriptor>
-                                        <targetDir>/${docker.app.dir}</targetDir>
-                                        <mode>tgz</mode>
+                                        <targetDir>${docker.app.dir}</targetDir>
+                                        <mode>dir</mode>
                                     </assembly>
                                 </assemblies>
                             </build>

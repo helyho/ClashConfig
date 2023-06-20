@@ -3,7 +3,7 @@
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0">
     <id>${project.version}</id>
     <formats>
-        <format>dir</format> <!-- jar, tar.gz, zip, dir-->
+        <format>tar.gz</format> <!-- jar, tar.gz, zip, dir-->
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
