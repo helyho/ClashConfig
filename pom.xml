@@ -98,13 +98,15 @@
                                 </ports>
                                 <workdir>/${docker.app.dir}</workdir>
                                 <cmd>
-                                    <shell>java -jar ${project.package.name}.jar</shell>
+                                    <!-- <shell>java -jar ${project.package.name}.jar</shell> -->
+                                    <shell>./${project.name}</shell>
                                 </cmd>
                                 <assemblies>
                                     <assembly>
                                         <name>app</name>
                                         <descriptor>${project.basedir}/assembly.xml</descriptor>
                                         <targetDir>/${docker.app.dir}</targetDir>
+                                        <mode>tgz</mode>
                                     </assembly>
                                 </assemblies>
                             </build>
@@ -114,7 +116,7 @@
             </plugin>
         </plugins>
         <!-- 最终打包的 jar 文件名称, 需要与 assembly.xml 中的同步 -->
-        <finalName>${project.package.name}</finalName>
+        <!-- <finalName>${project.package.name}</finalName> -->
     </build>
     <repositories>
         <repository>

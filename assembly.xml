@@ -3,7 +3,7 @@
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0">
     <id>${project.version}</id>
     <formats>
-        <format>tar.gz</format> <!-- jar, tar.gz, zip, dir-->
+        <format>dir</format> <!-- jar, tar.gz, zip, dir-->
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
@@ -28,14 +28,15 @@
     <files>
         <!-- 启动脚本 -->
         <file>
-            <source>./bin/launcher.sh</source>
+            <source>./build/launcher.sh</source>
             <outputDirectory>.</outputDirectory>
             <fileMode>0755</fileMode>
             <destName>${project.name}</destName>
         </file>
         <!-- 用于启动的 jar 包 -->
         <file>
-            <source>target/${project.package.name}.jar</source>
+            <source>target/${project.name}-${project.version}.jar</source>
+            <destName>${project.package.name}.jar</destName>
             <outputDirectory>.</outputDirectory>
         </file>
     </files>
