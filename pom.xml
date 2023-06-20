@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.clash</groupId>
     <artifactId>clash-config</artifactId>
     <version>1.0</version>
+
+    <properties>
+        <!-- maven公共配置 -->
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- 指定voovan框架的版本 -->
+        <voovan.version>3c0ed2f15b</voovan.version>
+
+        <!-- 执行类定义 -->
+        <project.main.class>org.clash.config.App</project.main.class>
+        <!-- 最后产生的jar包名称 -->
+        <project.package.name>launcher</project.package.name>
+        <!-- 打包 Docker 镜像的基础镜像 -->
+        <docker.baseImage>bitnami/java:17.0.7-7-debian-11-r20</docker.baseImage>
+        <!-- Docker镜像内保存运行环境的路径 -->
+        <docker.app.dir>/app</docker.app.dir>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -17,19 +36,9 @@
         <dependency>
             <groupId>com.github.helyho</groupId>
             <artifactId>Voovan</artifactId>
-            <version>3c0ed2f15b</version>
+            <version>${voovan.version}</version>
         </dependency>
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- 执行的类定义 -->
-        <project.main.class>org.clash.config.App</project.main.class>
-        <project.package.name>app</project.package.name>
-        <project.package.status>release</project.package.status>
-    </properties>
 
     <build>
         <plugins>
@@ -66,25 +75,45 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <!-- <appendAssemblyId>false</appendAssemblyId> -->
                     <finalName>${project.name}</finalName>
                     <descriptors>
                         <descriptor>assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 参考: http://dmp.fabric8.io/#image-configuration -->
+                    <images>
+                        <image>
+                            <alias>${project.artifactId}</alias>
+                            <name>${project.artifactId}:latest</name>
+                            <build>
+                                <compression>gzip</compression>
+                                <from>${docker.baseImage}</from>
+                                <ports>
+                                    <port>28080</port>
+                                </ports>
+                                <workdir>/${docker.app.dir}</workdir>
+                                <cmd>
+                                    <shell>java -jar ${project.package.name}.jar</shell>
+                                </cmd>
+                                <assemblies>
+                                    <assembly>
+                                        <name>app</name>
+                                        <descriptor>${project.basedir}/assembly.xml</descriptor>
+                                        <targetDir>/${docker.app.dir}</targetDir>
+                                    </assembly>
+                                </assemblies>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
             </plugin>
         </plugins>
-        <!-- 最终打包的jar 文件名称, 需要与 assembly.xml中的同步 -->
+        <!-- 最终打包的 jar 文件名称, 需要与 assembly.xml 中的同步 -->
         <finalName>${project.package.name}</finalName>
     </build>
     <repositories>
@@ -93,7 +122,4 @@
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
-
-
-
 </project>
