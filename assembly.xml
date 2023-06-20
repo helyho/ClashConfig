@@ -36,7 +36,7 @@
         <!-- 用于启动的 jar 包 -->
         <file>
             <source>target/${project.name}-${project.version}.jar</source>
-            <destName>${project.package.name}.jar</destName>
+            <destName>${launcher.name}.jar</destName>
             <outputDirectory>.</outputDirectory>
         </file>
     </files>

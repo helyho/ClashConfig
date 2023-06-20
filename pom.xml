@@ -10,8 +10,8 @@
 
     <properties>
         <!-- maven公共配置 -->
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- 指定voovan框架的版本 -->
@@ -20,7 +20,7 @@
         <!-- 执行类定义 -->
         <project.main.class>org.clash.config.App</project.main.class>
         <!-- 最后产生的jar包名称 -->
-        <project.package.name>launcher</project.package.name>
+        <launcher.name>launcher</launcher.name>
         <!-- 打包 Docker 镜像的基础镜像 -->
         <docker.baseImage>bitnami/java:17.0.7-7-debian-11-r20</docker.baseImage>
         <!-- Docker镜像内保存运行环境的路径 -->
@@ -98,7 +98,7 @@
                                 </ports>
                                 <workdir>/${docker.app.dir}</workdir>
                                 <cmd>
-                                    <!-- <shell>java -jar ${project.package.name}.jar</shell> -->
+                                    <!-- <shell>java -jar ${launcher.name}.jar</shell> -->
                                     <shell>./${project.name}</shell>
                                 </cmd>
                                 <assemblies>
@@ -116,7 +116,7 @@
             </plugin>
         </plugins>
         <!-- 最终打包的 jar 文件名称, 需要与 assembly.xml 中的同步 -->
-        <!-- <finalName>${project.package.name}</finalName> -->
+        <!-- <finalName>${launcher.name}</finalName> -->
     </build>
     <repositories>
         <repository>
