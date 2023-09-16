@@ -26,7 +26,8 @@ dns:
     - https://public.dns.iij.jp/dns-query
     - https://jp.tiar.app/dns-query
     - https://jp.tiarap.org/dns-query
-proxies: []
+proxies: [] 
+
 
 proxy-groups:
   - name: Auto - UrlTest

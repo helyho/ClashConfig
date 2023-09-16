@@ -86,11 +86,11 @@ public class App {
             }
             return false;
         }).collect(Collectors.toList());
-        List<String> subProxyNames = subProxies.stream().map(m-> m.get("name").toString()).collect(Collectors.toList());
 
         List<Map<String, Object>> templateProxies = TObject.cast(templateMap.get("proxies"));
-        templateProxies.clear();
         templateProxies.addAll(subProxies);
+
+        List<String> subProxyNames = templateProxies.stream().map(m-> m.get("name").toString()).collect(Collectors.toList());
 
         List<Map<String, Object>> templateProxyGroups = TObject.cast(templateMap.get("proxy-groups"));
         for(Map<String,Object> templateProxyGroup : templateProxyGroups) {
@@ -100,7 +100,7 @@ public class App {
                 groupProxies.addAll(subProxyNames);
             }
         }
-        byte[] bytes = new byte[1024*1024];
+        
         return yaml.dump(templateMap);
     }
 }

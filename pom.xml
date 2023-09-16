@@ -22,7 +22,7 @@
         <!-- 最后产生的jar包名称 -->
         <launcher.name>launcher</launcher.name>
         <!-- 打包 Docker 镜像的基础镜像 -->
-        <docker.baseImage>bitnami/java:17.0.7-7-debian-11-r20</docker.baseImage>
+        <docker.baseImage>jre</docker.baseImage>
         <!-- Docker镜像内保存运行环境的路径 -->
         <docker.app.dir>/app</docker.app.dir>
     </properties>
